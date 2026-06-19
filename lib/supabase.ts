@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-
-export const supabase = createClient(supabaseUrl, supabaseKey)
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
 export type Noticia = {
   id: string
@@ -20,29 +15,46 @@ export type Noticia = {
   publicada_facebook: boolean
 }
 
-export async function buscarNoticias(limite = 20, offset = 0) {
-  const { data, error } = await supabase
+let _client: SupabaseClient | null = null
+
+function getClient(): SupabaseClient | null {
+  if (_client) return _client
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) return null
+  _client = createClient(url, key)
+  return _client
+}
+
+export async function buscarNoticias(limite = 20, offset = 0): Promise<Noticia[]> {
+  const client = getClient()
+  if (!client) return []
+  const { data, error } = await client
     .from('noticias')
     .select('*')
     .order('data_publicacao', { ascending: false })
     .range(offset, offset + limite - 1)
-  if (error) throw error
-  return data as Noticia[]
+  if (error) return []
+  return (data ?? []) as Noticia[]
 }
 
-export async function buscarNoticiasPorCidade(cidade: string, limite = 20, offset = 0) {
-  const { data, error } = await supabase
+export async function buscarNoticiasPorCidade(cidade: string, limite = 20, offset = 0): Promise<Noticia[]> {
+  const client = getClient()
+  if (!client) return []
+  const { data, error } = await client
     .from('noticias')
     .select('*')
     .contains('cidades', [cidade])
     .order('data_publicacao', { ascending: false })
     .range(offset, offset + limite - 1)
-  if (error) throw error
-  return data as Noticia[]
+  if (error) return []
+  return (data ?? []) as Noticia[]
 }
 
-export async function buscarNoticiaPorId(id: string) {
-  const { data, error } = await supabase
+export async function buscarNoticiaPorId(id: string): Promise<Noticia> {
+  const client = getClient()
+  if (!client) throw new Error('Supabase não configurado')
+  const { data, error } = await client
     .from('noticias')
     .select('*')
     .eq('id', id)
@@ -51,11 +63,13 @@ export async function buscarNoticiaPorId(id: string) {
   return data as Noticia
 }
 
-export async function contarNoticiasPorCidade(cidade: string) {
-  const { count, error } = await supabase
+export async function contarNoticiasPorCidade(cidade: string): Promise<number> {
+  const client = getClient()
+  if (!client) return 0
+  const { count, error } = await client
     .from('noticias')
     .select('*', { count: 'exact', head: true })
     .contains('cidades', [cidade])
-  if (error) throw error
+  if (error) return 0
   return count ?? 0
 }
