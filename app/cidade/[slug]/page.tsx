@@ -10,8 +10,9 @@ export async function generateStaticParams() {
   return CIDADES.map(c => ({ slug: c.slug }))
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const cidade = slugParaCidade(params.slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const cidade = slugParaCidade(slug)
   if (!cidade) return {}
   return {
     title: `Notícias de ${cidade.nome} — Folha dos Vales`,
@@ -19,8 +20,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default async function CidadePage({ params }: { params: { slug: string } }) {
-  const cidade = slugParaCidade(params.slug)
+export default async function CidadePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const cidade = slugParaCidade(slug)
   if (!cidade) notFound()
 
   let noticias: Noticia[] = []

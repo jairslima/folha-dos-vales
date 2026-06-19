@@ -8,9 +8,10 @@ import type { Metadata } from 'next'
 
 export const revalidate = 3600
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   try {
-    const n = await buscarNoticiaPorId(params.id)
+    const { id } = await params
+    const n = await buscarNoticiaPorId(id)
     return {
       title: `${n.titulo} — Folha dos Vales`,
       description: n.conteudo.slice(0, 160),
@@ -21,10 +22,11 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   }
 }
 
-export default async function NoticiaPage({ params }: { params: { id: string } }) {
+export default async function NoticiaPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   let noticia
   try {
-    noticia = await buscarNoticiaPorId(params.id)
+    noticia = await buscarNoticiaPorId(id)
   } catch {
     notFound()
   }
