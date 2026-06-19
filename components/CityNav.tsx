@@ -28,8 +28,8 @@ export default function CityNav() {
           {REGIOES.map(regiao => (
             <div key={regiao} className="flex items-center gap-1 flex-shrink-0">
               <span className="text-gray-300 px-1 text-sm">|</span>
-              <span className="text-xs text-dourado font-semibold uppercase tracking-wide px-1 flex-shrink-0">
-                {regiao.replace('Vale d', '').replace('o ', '').replace('as ', '').trim()}
+              <span className="text-xs text-dourado font-semibold uppercase tracking-wide px-1 flex-shrink-0 hidden md:inline">
+                {regiao}
               </span>
               {CIDADES.filter(c => c.regiao === regiao).map(cidade => (
                 <Link
