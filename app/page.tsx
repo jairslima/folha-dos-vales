@@ -1,7 +1,7 @@
 import { buscarNoticias, Noticia } from '@/lib/supabase'
 import NewsCard from '@/components/NewsCard'
 
-export const revalidate = 300 // revalida a cada 5 minutos
+export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
   let noticias: Noticia[] = []

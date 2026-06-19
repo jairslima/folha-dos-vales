@@ -4,11 +4,7 @@ import NewsCard from '@/components/NewsCard'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
-export const revalidate = 300
-
-export async function generateStaticParams() {
-  return CIDADES.map(c => ({ slug: c.slug }))
-}
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
