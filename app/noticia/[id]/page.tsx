@@ -46,7 +46,7 @@ export default async function NoticiaPage({ params }: { params: Promise<{ id: st
 
       <div className="flex flex-wrap items-center gap-2 mb-3">
         <span className="region-label">{noticia.regiao}</span>
-        {noticia.cidades?.map(c => (
+        {Array.isArray(noticia.cidades) && noticia.cidades.map(c => (
           <Link key={c} href={`/cidade/${c.toLowerCase().replace(/\s/g, '-').normalize('NFD').replace(/[̀-ͯ]/g, '')}`}>
             <span className="city-tag hover:bg-azul-claro cursor-pointer">{c}</span>
           </Link>

@@ -31,7 +31,7 @@ export default function NewsCard({ noticia }: { noticia: Noticia }) {
       <div className="p-4">
         <div className="flex flex-wrap items-center gap-2 mb-2">
           <span className="region-label">{noticia.regiao}</span>
-          {noticia.cidades?.slice(0, 2).map(cidade => (
+          {Array.isArray(noticia.cidades) && noticia.cidades.slice(0, 2).map(cidade => (
             <span key={cidade} className="city-tag">{cidade}</span>
           ))}
         </div>
