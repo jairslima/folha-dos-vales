@@ -41,14 +41,26 @@ export async function buscarNoticias(limite = 20, offset = 0): Promise<Noticia[]
 export async function buscarNoticiasPorCidade(cidade: string, limite = 20, offset = 0): Promise<Noticia[]> {
   const client = getClient()
   if (!client) return []
+  // Usa ilike no título e conteúdo para contornar problema de encoding unicode no JSONB contains
   const { data, error } = await client
     .from('noticias')
     .select('*')
-    .contains('cidades', [cidade])
+    .or(`titulo.ilike.%${cidade}%,conteudo.ilike.%${cidade}%`)
     .order('data_publicacao', { ascending: false })
     .range(offset, offset + limite - 1)
   if (error) return []
   return (data ?? []) as Noticia[]
+}
+
+export async function contarNoticiasPorCidade(cidade: string): Promise<number> {
+  const client = getClient()
+  if (!client) return 0
+  const { count, error } = await client
+    .from('noticias')
+    .select('*', { count: 'exact', head: true })
+    .or(`titulo.ilike.%${cidade}%,conteudo.ilike.%${cidade}%`)
+  if (error) return 0
+  return count ?? 0
 }
 
 export async function buscarNoticiaPorId(id: string): Promise<Noticia> {
@@ -61,15 +73,4 @@ export async function buscarNoticiaPorId(id: string): Promise<Noticia> {
     .single()
   if (error) throw error
   return data as Noticia
-}
-
-export async function contarNoticiasPorCidade(cidade: string): Promise<number> {
-  const client = getClient()
-  if (!client) return 0
-  const { count, error } = await client
-    .from('noticias')
-    .select('*', { count: 'exact', head: true })
-    .contains('cidades', [cidade])
-  if (error) return 0
-  return count ?? 0
 }
