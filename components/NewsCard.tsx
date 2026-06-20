@@ -4,35 +4,61 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Noticia } from '@/lib/supabase'
 
+function ImagemFallback({ regiao, cidade }: { regiao: string; cidade?: string }) {
+  const icones: Record<string, string> = {
+    'Vale do Paranhana': '🏔️',
+    'Vale dos Sinos': '🏭',
+    'Vale das Hortências': '🌸',
+  }
+  const icone = icones[regiao] || '📰'
+
+  return (
+    <div className="h-44 w-full flex flex-col items-center justify-center bg-gradient-to-br from-azul to-azul-claro text-white">
+      <span className="text-4xl mb-2">{icone}</span>
+      <span className="font-serif text-sm font-semibold text-dourado">{cidade || regiao}</span>
+      <span className="text-xs text-blue-200 mt-1">Folha dos Vales</span>
+    </div>
+  )
+}
+
 export default function NewsCard({ noticia }: { noticia: Noticia }) {
   const data = new Date(noticia.data_publicacao)
-  const dataFormatada = format(data, "d 'de' MMMM 'de' yyyy 'às' HH:mm", { locale: ptBR })
+  const dataFormatada = format(data, "d 'de' MMMM 'de' yyyy", { locale: ptBR })
+  const cidade = Array.isArray(noticia.cidades) ? noticia.cidades[0] : undefined
 
   const extrato = noticia.conteudo
     .split('\n')
     .filter(p => p.trim().length > 0 && !p.startsWith('Para ler a notícia'))
     .slice(0, 2)
     .join(' ')
-    .slice(0, 220)
+    .slice(0, 200)
+
+  const temImagem = noticia.imagem_url &&
+    !noticia.imagem_url.includes('news.google.com') &&
+    !noticia.imagem_url.includes('lh3.google')
 
   return (
     <Link href={`/noticia/${noticia.id}`} className="news-card block group">
-      {noticia.imagem_url && (
-        <div className="relative h-44 w-full overflow-hidden bg-gray-100">
+      <div className="relative h-44 w-full overflow-hidden">
+        {temImagem ? (
           <Image
-            src={noticia.imagem_url}
+            src={noticia.imagem_url!}
             alt={noticia.titulo}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             unoptimized
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
           />
-        </div>
-      )}
+        ) : (
+          <ImagemFallback regiao={noticia.regiao} cidade={cidade} />
+        )}
+      </div>
+
       <div className="p-4">
         <div className="flex flex-wrap items-center gap-2 mb-2">
           <span className="region-label">{noticia.regiao}</span>
-          {Array.isArray(noticia.cidades) && noticia.cidades.slice(0, 2).map(cidade => (
-            <span key={cidade} className="city-tag">{cidade}</span>
+          {Array.isArray(noticia.cidades) && noticia.cidades.slice(0, 2).map(c => (
+            <span key={c} className="city-tag">{c}</span>
           ))}
         </div>
 
