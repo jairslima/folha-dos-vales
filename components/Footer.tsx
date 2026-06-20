@@ -30,7 +30,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://facebook.com/folhadosvales"
+                  href="https://www.facebook.com/profile.php?id=61591205211688"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-white transition-colors flex items-center gap-1"

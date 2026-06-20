@@ -29,7 +29,7 @@ export default function Header() {
           <Link href="/" className="hover:text-dourado transition-colors">Início</Link>
           <Link href="/sobre" className="hover:text-dourado transition-colors">Sobre</Link>
           <Link
-            href="https://facebook.com/folhadosvales"
+            href="https://www.facebook.com/profile.php?id=61591205211688"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1 hover:text-dourado transition-colors"
@@ -65,7 +65,7 @@ export default function Header() {
         <div className="md:hidden bg-azul-escuro border-t border-blue-700 px-4 py-3 flex flex-col gap-3 text-sm">
           <Link href="/" onClick={() => setMenuOpen(false)} className="hover:text-dourado">Início</Link>
           <Link href="/sobre" onClick={() => setMenuOpen(false)} className="hover:text-dourado">Sobre</Link>
-          <a href="https://facebook.com/folhadosvales" target="_blank" rel="noopener noreferrer" className="hover:text-dourado">Facebook</a>
+          <a href="https://www.facebook.com/profile.php?id=61591205211688" target="_blank" rel="noopener noreferrer" className="hover:text-dourado">Facebook</a>
           <a href="mailto:afolhadosvales@gmail.com" className="hover:text-dourado">Contato: afolhadosvales@gmail.com</a>
         </div>
       )}

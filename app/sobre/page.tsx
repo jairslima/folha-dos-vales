@@ -56,7 +56,7 @@ export default function SobrePage() {
         </p>
         <p>
           Siga também nas redes:{' '}
-          <a href="https://facebook.com/folhadosvales" target="_blank" rel="noopener noreferrer" className="text-azul hover:text-dourado underline">
+          <a href="https://www.facebook.com/profile.php?id=61591205211688" target="_blank" rel="noopener noreferrer" className="text-azul hover:text-dourado underline">
             facebook.com/folhadosvales
           </a>
         </p>
