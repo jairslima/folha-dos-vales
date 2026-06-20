@@ -33,9 +33,13 @@ export default function NewsCard({ noticia }: { noticia: Noticia }) {
     .join(' ')
     .slice(0, 200)
 
+  const IMAGENS_BLOQUEADAS = [
+    'news.google.com', 'lh3.google', 'ge.globo', 'globo.com/ge',
+    'placeholder', 'default-image', 'logo', 'favicon',
+    's.glbimg.com/es/ge', 'i.s3.glbimg'
+  ]
   const temImagem = noticia.imagem_url &&
-    !noticia.imagem_url.includes('news.google.com') &&
-    !noticia.imagem_url.includes('lh3.google')
+    !IMAGENS_BLOQUEADAS.some(b => noticia.imagem_url!.includes(b))
 
   return (
     <Link href={`/noticia/${noticia.id}`} className="news-card block group">
