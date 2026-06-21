@@ -38,14 +38,21 @@ export async function buscarNoticias(limite = 20, offset = 0): Promise<Noticia[]
   return (data ?? []) as Noticia[]
 }
 
+// Allowlist: apenas letras, números, espaços, hífen e apóstrofo (cobre todos os nomes de cidades dos 3 vales)
+function sanitizarCidade(cidade: string): string | null {
+  if (!/^[\p{L}\p{N} \-']{1,64}$/u.test(cidade)) return null
+  return cidade.replace(/[%_\\]/g, c => '\\' + c)
+}
+
 export async function buscarNoticiasPorCidade(cidade: string, limite = 20, offset = 0): Promise<Noticia[]> {
   const client = getClient()
   if (!client) return []
-  // Usa ilike no título e conteúdo para contornar problema de encoding unicode no JSONB contains
+  const safe = sanitizarCidade(cidade)
+  if (!safe) return []
   const { data, error } = await client
     .from('noticias')
     .select('*')
-    .or(`titulo.ilike.%${cidade}%,conteudo.ilike.%${cidade}%`)
+    .or(`titulo.ilike.%${safe}%,conteudo.ilike.%${safe}%`)
     .order('data_publicacao', { ascending: false })
     .range(offset, offset + limite - 1)
   if (error) return []
@@ -55,10 +62,12 @@ export async function buscarNoticiasPorCidade(cidade: string, limite = 20, offse
 export async function contarNoticiasPorCidade(cidade: string): Promise<number> {
   const client = getClient()
   if (!client) return 0
+  const safe = sanitizarCidade(cidade)
+  if (!safe) return 0
   const { count, error } = await client
     .from('noticias')
     .select('*', { count: 'exact', head: true })
-    .or(`titulo.ilike.%${cidade}%,conteudo.ilike.%${cidade}%`)
+    .or(`titulo.ilike.%${safe}%,conteudo.ilike.%${safe}%`)
   if (error) return 0
   return count ?? 0
 }
