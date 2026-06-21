@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Noticia } from '@/lib/supabase'
+import NewsImage from './NewsImage'
 
 function ImagemFallback({ regiao, cidade }: { regiao: string; cidade?: string }) {
   const icones: Record<string, string> = {
@@ -45,14 +45,7 @@ export default function NewsCard({ noticia }: { noticia: Noticia }) {
     <Link href={`/noticia/${noticia.id}`} className="news-card block group">
       <div className="relative h-44 w-full overflow-hidden">
         {temImagem ? (
-          <Image
-            src={noticia.imagem_url!}
-            alt={noticia.titulo}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-            unoptimized
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-          />
+          <NewsImage src={noticia.imagem_url!} alt={noticia.titulo} />
         ) : (
           <ImagemFallback regiao={noticia.regiao} cidade={cidade} />
         )}
