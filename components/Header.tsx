@@ -17,10 +17,8 @@ export default function Header() {
             <div className="font-serif text-xl font-bold leading-tight text-white group-hover:text-dourado transition-colors">
               Folha dos Vales
             </div>
-            <div className="text-xs text-blue-200 leading-snug hidden sm:flex flex-col">
-              <span>Vale do Paranhana</span>
-              <span>Vale dos Sinos</span>
-              <span>Vale das Hortências</span>
+            <div className="text-xs text-blue-200 leading-snug hidden sm:block">
+              Paranhana · Sinos · Hortências
             </div>
           </div>
         </Link>

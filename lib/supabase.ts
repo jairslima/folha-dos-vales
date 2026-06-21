@@ -72,6 +72,31 @@ export async function contarNoticiasPorCidade(cidade: string): Promise<number> {
   return count ?? 0
 }
 
+export async function buscarNoticiasPorRegiao(regiao: string, limite = 30, offset = 0): Promise<Noticia[]> {
+  const client = getClient()
+  if (!client) return []
+  // 'regiao' é um valor fixo gerado pelo backend (não input de usuário) — eq() direto é seguro.
+  const { data, error } = await client
+    .from('noticias')
+    .select('*')
+    .eq('regiao', regiao)
+    .order('data_publicacao', { ascending: false })
+    .range(offset, offset + limite - 1)
+  if (error) return []
+  return (data ?? []) as Noticia[]
+}
+
+export async function contarNoticiasPorRegiao(regiao: string): Promise<number> {
+  const client = getClient()
+  if (!client) return 0
+  const { count, error } = await client
+    .from('noticias')
+    .select('*', { count: 'exact', head: true })
+    .eq('regiao', regiao)
+  if (error) return 0
+  return count ?? 0
+}
+
 export async function buscarNoticiaPorId(id: string): Promise<Noticia> {
   const client = getClient()
   if (!client) throw new Error('Supabase não configurado')

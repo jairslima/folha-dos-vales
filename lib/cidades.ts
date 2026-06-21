@@ -37,3 +37,20 @@ export function slugParaCidade(slug: string) {
 export function nomeParaSlug(nome: string) {
   return CIDADES.find(c => c.nome.toLowerCase() === nome.toLowerCase())?.slug
 }
+
+const SLUG_POR_REGIAO: Record<string, string> = {
+  'Vale do Paranhana': 'vale-do-paranhana',
+  'Vale dos Sinos': 'vale-dos-sinos',
+  'Vale das Hortências': 'vale-das-hortencias',
+}
+const REGIAO_POR_SLUG: Record<string, string> = Object.fromEntries(
+  Object.entries(SLUG_POR_REGIAO).map(([nome, slug]) => [slug, nome])
+)
+
+export function regiaoParaSlug(regiao: string) {
+  return SLUG_POR_REGIAO[regiao]
+}
+
+export function slugParaRegiao(slug: string) {
+  return REGIAO_POR_SLUG[slug]
+}
