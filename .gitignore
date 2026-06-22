@@ -5,3 +5,11 @@ node_modules/
 *.log
 
 .vercel
+.env.*
+*.key
+secrets.*
+*.pkl
+*.pem
+credentials.*
+*.p12
+*.pfx
