@@ -13,6 +13,8 @@ export type Noticia = {
   turno: string
   score: number
   publicada_facebook: boolean
+  destaque_em?: string | null
+  youtube_url?: string | null
 }
 
 let _client: SupabaseClient | null = null
@@ -95,6 +97,22 @@ export async function contarNoticiasPorRegiao(regiao: string): Promise<number> {
     .eq('regiao', regiao)
   if (error) return 0
   return count ?? 0
+}
+
+export async function buscarNoticiaDestaque(): Promise<Noticia | null> {
+  const client = getClient()
+  if (!client) return null
+  // Rotação automática sem cron: a notícia de hoje sempre tem destaque_em mais
+  // recente que a de ontem, então a de destaque_em mais recente já é "a do dia".
+  const { data, error } = await client
+    .from('noticias')
+    .select('*')
+    .not('destaque_em', 'is', null)
+    .order('destaque_em', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+  if (error) return null
+  return data as Noticia | null
 }
 
 export async function buscarNoticiaPorId(id: string): Promise<Noticia> {
