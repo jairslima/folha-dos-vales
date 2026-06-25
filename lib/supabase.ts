@@ -40,10 +40,51 @@ export async function buscarNoticias(limite = 20, offset = 0): Promise<Noticia[]
   return (data ?? []) as Noticia[]
 }
 
-// Allowlist: apenas letras, números, espaços, hífen e apóstrofo (cobre todos os nomes de cidades dos 3 vales)
+function escaparLike(valor: string): string {
+  return valor.replace(/[%_\\]/g, c => '\\' + c)
+}
+
+// Allowlist: apenas letras, números, espaços, hífen e apóstrofo.
 function sanitizarCidade(cidade: string): string | null {
   if (!/^[\p{L}\p{N} \-']{1,64}$/u.test(cidade)) return null
-  return cidade.replace(/[%_\\]/g, c => '\\' + c)
+  return escaparLike(cidade)
+}
+
+function sanitizarBusca(termo: string): string | null {
+  const normalizado = termo.replace(/\s+/g, ' ').trim()
+  if (!normalizado || normalizado.length > 80) return null
+  if (!/^[\p{L}\p{N} \-']{1,80}$/u.test(normalizado)) return null
+  return escaparLike(normalizado)
+}
+
+export async function buscarNoticiasPorTermo(termo: string, limite = 30, offset = 0): Promise<Noticia[]> {
+  const client = getClient()
+  if (!client) return []
+  const safe = sanitizarBusca(termo)
+  if (!safe) return []
+  const filtro = `titulo.ilike.%${safe}%,conteudo.ilike.%${safe}%,fonte_nome.ilike.%${safe}%,regiao.ilike.%${safe}%`
+  const { data, error } = await client
+    .from('noticias')
+    .select('*')
+    .or(filtro)
+    .order('data_publicacao', { ascending: false })
+    .range(offset, offset + limite - 1)
+  if (error) return []
+  return (data ?? []) as Noticia[]
+}
+
+export async function contarNoticiasPorTermo(termo: string): Promise<number> {
+  const client = getClient()
+  if (!client) return 0
+  const safe = sanitizarBusca(termo)
+  if (!safe) return 0
+  const filtro = `titulo.ilike.%${safe}%,conteudo.ilike.%${safe}%,fonte_nome.ilike.%${safe}%,regiao.ilike.%${safe}%`
+  const { count, error } = await client
+    .from('noticias')
+    .select('*', { count: 'exact', head: true })
+    .or(filtro)
+  if (error) return 0
+  return count ?? 0
 }
 
 export async function buscarNoticiasPorCidade(cidade: string, limite = 20, offset = 0): Promise<Noticia[]> {

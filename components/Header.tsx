@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
+import SearchForm from './SearchForm'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -23,7 +24,8 @@ export default function Header() {
           </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 text-sm">
+        <nav className="hidden md:flex items-center gap-5 text-sm">
+          <SearchForm compact className="w-52 lg:w-64" />
           <Link href="/" className="hover:text-dourado transition-colors">Início</Link>
           <Link href="/sobre" className="hover:text-dourado transition-colors">Sobre</Link>
           <Link
@@ -61,6 +63,7 @@ export default function Header() {
 
       {menuOpen && (
         <div className="md:hidden bg-azul-escuro border-t border-blue-700 px-4 py-3 flex flex-col gap-3 text-sm">
+          <SearchForm compact className="w-full" />
           <Link href="/" onClick={() => setMenuOpen(false)} className="hover:text-dourado">Início</Link>
           <Link href="/sobre" onClick={() => setMenuOpen(false)} className="hover:text-dourado">Sobre</Link>
           <a href="https://www.facebook.com/profile.php?id=61591205211688" target="_blank" rel="noopener noreferrer" className="hover:text-dourado">Facebook</a>

@@ -5,6 +5,7 @@ Site de notícias locais que agrega e publica conteúdos das regiões do Vale do
 ## Funcionalidades
 
 - Listagem das últimas notícias publicadas
+- Pesquisa por termo em título, conteúdo, fonte e região
 - Navegação por cidade e por região (vale)
 - Página de detalhe de notícia
 - Página "Sobre" o projeto
