@@ -1,5 +1,6 @@
 import { buscarNoticiasPorCidade, contarNoticiasPorCidade, Noticia } from '@/lib/supabase'
 import { slugParaCidade, CIDADES } from '@/lib/cidades'
+import { buscarUrlJornalSemanal } from '@/lib/jornal'
 import NewsCard from '@/components/NewsCard'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
@@ -30,6 +31,8 @@ export default async function CidadePage({ params }: { params: Promise<{ slug: s
     noticias = []
   }
 
+  const pdfJornalUrl = await buscarUrlJornalSemanal(cidade.slug)
+
   return (
     <div>
       <div className="mb-6">
@@ -42,6 +45,23 @@ export default async function CidadePage({ params }: { params: Promise<{ slug: s
           {' · '}mais recentes primeiro
         </p>
       </div>
+
+      {pdfJornalUrl && (
+        <a
+          href={pdfJornalUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mb-6 flex items-center gap-3 rounded-lg border border-dourado/40 bg-dourado/10 px-4 py-3 hover:bg-dourado/20 transition-colors duration-150"
+        >
+          <span className="text-2xl">📰</span>
+          <span>
+            <span className="block font-serif font-semibold text-azul">
+              Edição impressa da semana de {cidade.nome}
+            </span>
+            <span className="block text-sm text-gray-600">Baixar em PDF</span>
+          </span>
+        </a>
+      )}
 
       {noticias.length === 0 ? (
         <div className="text-center py-16 text-gray-400">
