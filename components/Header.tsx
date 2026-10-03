@@ -28,6 +28,14 @@ export default function Header() {
           <SearchForm compact className="w-52 lg:w-64" />
           <Link href="/" className="hover:text-dourado transition-colors">Início</Link>
           <Link href="/sobre" className="hover:text-dourado transition-colors">Sobre</Link>
+          <a
+            href="https://bibliasagradalivre.com.br"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-dourado transition-colors"
+          >
+            Bíblia Sagrada
+          </a>
           <Link
             href="https://www.facebook.com/profile.php?id=61591205211688"
             target="_blank"
@@ -66,6 +74,7 @@ export default function Header() {
           <SearchForm compact className="w-full" />
           <Link href="/" onClick={() => setMenuOpen(false)} className="hover:text-dourado">Início</Link>
           <Link href="/sobre" onClick={() => setMenuOpen(false)} className="hover:text-dourado">Sobre</Link>
+          <a href="https://bibliasagradalivre.com.br" target="_blank" rel="noopener noreferrer" className="hover:text-dourado">Bíblia Sagrada</a>
           <a href="https://www.facebook.com/profile.php?id=61591205211688" target="_blank" rel="noopener noreferrer" className="hover:text-dourado">Facebook</a>
           <a href="mailto:afolhadosvales@gmail.com" className="hover:text-dourado">Contato: afolhadosvales@gmail.com</a>
         </div>
