@@ -58,8 +58,9 @@ export default function Footer() {
             </p>
           </div>
         </div>
-        <div className="border-t border-blue-800 mt-6 pt-4 text-xs text-center text-blue-400">
-          © {new Date().getFullYear()} Folha dos Vales · Três Coroas, RS · Notícias locais dos três vales
+        <div className="border-t border-blue-800 mt-6 pt-4 text-xs text-center text-blue-400 space-y-1">
+          <p>© {new Date().getFullYear()} Folha dos Vales · Três Coroas, RS · Notícias locais dos três vales</p>
+          <p>Jornalista Responsável: Jair da Silva Lima — Registro Profissional MTE nº 0024314/RS</p>
         </div>
       </div>
     </footer>

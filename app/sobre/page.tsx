@@ -47,6 +47,11 @@ export default function SobrePage() {
           ))}
         </div>
 
+        <h2 className="font-serif text-xl font-bold text-azul mt-8">Expediente</h2>
+        <p>
+          Jornalista Responsável: <strong>Jair da Silva Lima</strong> — Registro Profissional MTE nº 0024314/RS
+        </p>
+
         <h2 className="font-serif text-xl font-bold text-azul mt-8">Contato</h2>
         <p>
           Para sugestões de pauta, correções ou informações:{' '}
