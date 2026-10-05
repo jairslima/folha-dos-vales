@@ -22,6 +22,15 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   }
 }
 
+// Torna clicável apenas o endereço da página especial de eleições dentro do texto da notícia.
+function comLinkEleicoes(p: string) {
+  return p.split(/(https?:\/\/[^\s]*\/eleicoes-2026)/g).map((parte, i) =>
+    /^https?:\/\/[^\s]*\/eleicoes-2026$/.test(parte)
+      ? <a key={i} href={parte} className="text-azul underline hover:text-dourado font-semibold">{parte}</a>
+      : parte
+  )
+}
+
 export default async function NoticiaPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   let noticia
@@ -88,7 +97,7 @@ export default async function NoticiaPage({ params }: { params: Promise<{ id: st
             >
               {ehUltimo
                 ? p.replace(/acesse (https?:\/\/\S+)/, (_, url) => '').trim() + ' '
-                : p
+                : comLinkEleicoes(p)
               }
               {ehUltimo && noticia.url_fonte && (
                 <a
