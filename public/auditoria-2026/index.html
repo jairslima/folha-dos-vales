@@ -168,9 +168,9 @@ td.d0{color:var(--ok)} td.dx{color:var(--open);font-weight:600}
     </ul></div>
     <div class="no"><h3>Não está provado</h3><ul>
       <li>A independência total: o total oficial vem dos mesmos BUs, e a especificação e as chaves vêm do próprio TSE. Por isso a conclusão é "nenhum sinal detectável pelos métodos empregados".</li>
-      <li>O painel real do site do TSE (só o da TV Senado foi lido). O <code>log.jez</code> das 842 seções atrasadas foi lido e não mostra anomalia.</li>
+      <li>O painel público do site do TSE no momento do apagão (só o da TV Senado foi lido; a série de dados do painel foi lida depois, em 05/11). O <code>log.jez</code> das 842 seções atrasadas foi lido e não mostra anomalia.</li>
       <li>Que cada voto gravado na urna corresponde à intenção do eleitor. O BU e o RDV são saídas da própria urna; na amostra, o RDV mostra que o BU é a soma exata dos votos registrados.</li>
-      <li>A causa do apagão. A explicação do TSE (congestionamento de divulgação) não é confirmada nem refutada pelos dados públicos.</li>
+      <li>A causa do apagão. O TSE atribui o fato à divulgação e diz que a totalização não parou, mas a série do próprio painel mostra a totalização parada de 19h32 a 20h05; a causa não é verificável com dados públicos.</li>
       <li>O significado do status "Recebida". O horário real de chegada das seções registradas no dia seguinte passou a ser conhecido pelo conjunto de dados abertos do TSE (seção 5).</li>
     </ul></div>
   </div>
@@ -309,7 +309,8 @@ td.d0{color:var(--ok)} td.dx{color:var(--open);font-weight:600}
     <li>O estado A ficou na tela da emissora até ~19h18, quando o painel real já mostrava 64,81%: defasagem dos gráficos da emissora. É a explicação mais provável para a impressão de que "a diferença sumiu".</li>
     <li>A queda de Flávio se explica em boa parte pela ordem de chegada das regiões. Controlando por UF, o resíduo às 19h06 é de 0,70 ponto percentual; por município, 0,32, e vai a zero até as 21h.</li>
   </ul>
-  <div class="callout"><strong>O que os dados não dizem.</strong> Os carimbos de registro dos BUs também pararam por 27,5 minutos e depois descarregaram em rajada. Isso é coerente com um gargalo dentro do TSE, mas não permite separar se a pausa foi de recepção, de processamento ou só de divulgação. As urnas emitiram os boletins muito antes (17h a ~20h41). Para separar seriam necessários os logs de recepção do TSE, que não são públicos.</div>
+  <div class="callout"><strong>O que os dados não dizem.</strong> Os carimbos de registro dos BUs também pararam por 27,5 minutos e depois descarregaram em rajada. Isso é coerente com um gargalo dentro do TSE, mas, só com os BUs, não permite separar se a pausa foi de recepção, de processamento ou só de divulgação. As urnas emitiram os boletins muito antes (17h a ~20h41). Para separar seriam necessários os logs de recepção do TSE, que não são públicos.</div>
+  <div class="callout info"><strong>A série oficial do painel do TSE (cruzamento de 05/11/2026).</strong> O TSE respondeu ao pedido de informação em 04/11 remetendo ao Painel de Evolução da Totalização e afirmando que recebimento, processamento e totalização seguiram regularmente. Os dados desse painel são públicos e mostram outra coisa: a totalização ficou parada das 19h32 às 20h05 (cerca de 32 minutos, só 75 seções a mais), e os carimbos de registro dos BUs pararam no mesmo intervalo (19h31min50s a 19h59min22s), seguidos de uma rajada. A divulgação já estava congelada desde as 19h06, 25 minutos antes. Os 84,96% da volta, às 20h10, correspondem às 424.153 seções do platô parado. O resultado final do painel (499.248 seções, 119.300.788 votos nominais) fecha com a soma dos BUs. <strong>O que isso não prova:</strong> a causa da parada, e se foi a transmissão das urnas, o registro ou o processamento no TSE. Essa informação só o TSE tem, e o log e o relatório técnico do incidente pedidos em 07/10 não foram entregues: a resposta do TSE não atendeu nenhum dos 7 pedidos nem os 5 do complemento de 19/10, e o relato foi concluído em 04/11. Detalhes no relatório, seções 5.1 e 7.5.</div>
 </section>
 
 <section id="atrasos">
@@ -404,7 +405,7 @@ td.d0{color:var(--ok)} td.dx{color:var(--open);font-weight:600}
 
   <details><summary>Como fechar o que está em aberto</summary><div class="in">
     <ol class="steps">
-      <li>Pedir ao TSE o log de recepção e totalização por seção do dia 04/10 e a definição dos status "Recebida" e "Totalizada".</li>
+      <li>Log de recepção e totalização por seção do dia 04/10 e definição dos status "Recebida" e "Totalizada": pedidos ao TSE em 07/10. O TSE respondeu em 04/11 sem entregar nada disso (seção 4), e o relato foi concluído; seguem sem resposta.</li>
       <li>Feito: os TREs do Maranhão (15/10), de Pernambuco (19/10), de São Paulo (27/10) e do Pará (27/10) responderam (ver acima), e o conjunto de dados abertos do TSE confirma o horário de recebimento das seções. Os hashes dos BUs de Pernambuco dependem do TSE.</li>
       <li>Feito: assinatura das 31 seções do Sistema de Apuração, válida nas 31.</li>
       <li>Feito: RDV e <code>log.jez</code> das 842 seções que atrasaram ou foram registradas no dia seguinte, comparados com 1.500 seções de controle: nada na urna explica o atraso (a urna gera o BU na mesma hora; o log não registra a transmissão). Único sinal pequeno: erro de leitura da mídia de resultado em 1,1% das 743, contra 0,3% do controle.</li>
@@ -420,7 +421,7 @@ td.d0{color:var(--ok)} td.dx{color:var(--open);font-weight:600}
     <li>As chaves raiz que validam os certificados vêm do pacote de documentação do próprio TSE. A confiança nelas é externa a esta verificação.</li>
     <li>Os totais da eleição estadual foram conferidos ao voto nas 27 UFs. A assinatura foi verificada para a eleição de Presidente em todas as seções e, para a eleição estadual, por amostragem de 100.761 seções (todas válidas), incluindo todas as que atrasaram. Nas duas, a cadeia de hashes foi verificada em todos os BUs. Uma amostra não prova que cada uma das demais seções esteja íntegra, mas considerando só as 99.950 sorteadas, se existisse mais de 0,003% de assinaturas inválidas, a chance de não aparecer nenhuma seria menor que 5%.</li>
     <li>O RDV foi verificado por amostra (20.811 seções, todas iguais ao BU). O <code>log.jez</code> foi lido nas 842 seções atrasadas e em 1.500 de controle, sem anomalia.</li>
-    <li>Não reproduzi o painel real do TSE seção por seção: a ordem de totalização do painel não é a ordem de registro dos BUs (diferença de cerca de 2 mil seções no estado de 19h06). Usei o painel exibido pela TV Senado.</li>
+    <li>Não reproduzi o painel real do TSE seção por seção: a ordem de totalização do painel não é a ordem de registro dos BUs (diferença de cerca de 2 mil seções no estado de 19h06). Usei o painel exibido pela TV Senado para os três estados e, depois, a série de dados do Painel de Evolução da Totalização do TSE (seção 4).</li>
   </ul>
 </section>
 
